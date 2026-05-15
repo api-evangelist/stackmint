@@ -1,0 +1,80 @@
+aid: stackmint
+name: Stackmint
+description: >-
+  Stackmint is a governed execution platform for enterprise AI workflows.
+  Rather than deploying raw agents, the platform packages AI capabilities
+  with built-in controls — budget circuit breakers, human approval gates,
+  compliance routing, and ROI measurement — so organizations can move AI
+  projects from research into production with auditable execution paths.
+  The platform exposes a Semantic Execution Layer (SEL) of ontology,
+  semantics, branches, agents, and runtime/audit, and offers a REST API
+  for managing clients, branches (workflows), buds (atomic units), and
+  MCP-compatible tool surfaces for LLM integration.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - AI Governance
+  - AI Agents
+  - Workflow Automation
+  - Enterprise AI
+  - MCP
+  - Semantic Layer
+  - Audit
+  - Compliance
+url: https://raw.githubusercontent.com/api-evangelist/stackmint/refs/heads/main/apis.yml
+created: '2026-05-15'
+modified: '2026-05-15'
+specificationVersion: '0.19'
+apis:
+  - aid: stackmint:platform-api
+    name: Stackmint Platform API
+    description: >-
+      REST API for managing Stackmint workflows. Provides endpoints for
+      listing and retrieving clients (orgs), enumerating and running
+      Branches (composable workflows) and Buds (atomic execution units),
+      and exposing MCP-compatible tool surfaces that LLMs and agents can
+      discover and invoke under governance and audit controls.
+    humanURL: https://stackmint.ai/en/api-reference
+    baseURL: https://api.stackmint.ai/v1
+    tags:
+      - Workflows
+      - Branches
+      - Buds
+      - MCP
+      - Governance
+    properties:
+      - type: Documentation
+        url: https://stackmint.ai/en/api-reference
+      - type: Developers
+        url: https://stackmint.ai/en/developers
+      - type: Authentication
+        url: https://stackmint.ai/en/api-reference
+        description: >-
+          Bearer token scheme with org-level scoping. Requires
+          Authorization: Bearer <api-key> and X-Stackmint-Org-Id: <orgId>
+          headers; optional role/scope parameters for admin and MCP
+          endpoints.
+      - type: Semantic Standard
+        url: https://stackmint.ai/en/semantic-standard
+common:
+  - type: Website
+    url: https://stackmint.ai/
+  - type: Documentation
+    url: https://stackmint.ai/en/developers
+  - type: API Reference
+    url: https://stackmint.ai/en/api-reference
+  - type: Semantic Standard
+    url: https://stackmint.ai/en/semantic-standard
+  - type: Blog
+    url: https://stackmint.ai/en/blog
+  - type: Sign Up
+    url: https://stackmint.ai/en/signup
+  - type: Models
+    url: https://stackmint.ai/en/models
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/stackmint-ai
+  - type: Support
+    url: mailto:api@stackmint.ai
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
