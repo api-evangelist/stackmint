@@ -61,13 +61,13 @@ common:
     url: https://stackmint.ai/
   - type: Documentation
     url: https://stackmint.ai/en/developers
-  - type: API Reference
+  - type: APIReference
     url: https://stackmint.ai/en/api-reference
   - type: Semantic Standard
     url: https://stackmint.ai/en/semantic-standard
   - type: Blog
     url: https://stackmint.ai/en/blog
-  - type: Sign Up
+  - type: SignUp
     url: https://stackmint.ai/en/signup
   - type: Models
     url: https://stackmint.ai/en/models
