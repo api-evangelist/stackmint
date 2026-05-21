@@ -1,0 +1,96 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Providers Config
+  description: "Configure Stackmint provider credentials (OpenAI, Anthropic, Mistral, and\
+    \ other LLM and multimodal providers) from declarative Naftiko spec. Lets a platform team\
+    \ manage LLM provider routing for Stackmint clients the same way they manage every other\
+    \ consume-side credential \u2014 through capability spec + binds, not the Stackmint console."
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Providers
+  - Credentials
+  - LLM
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: provider-credentials
+      path: /admin/clients/{{client_id}}/providers/{{provider_id}}/credentials
+      operations:
+      - name: set-provider-credentials
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: provider_id
+          in: path
+          required: true
+        body: '{{credentials}}'
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-providers-config-rest
+    description: REST surface for Stackmint Providers Config.
+    resources:
+    - name: set-provider-credentials
+      path: /stackmint/clients/{client_id}/providers/{provider_id}/credentials
+      operations:
+      - name: set-provider-credentials
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: provider_id
+          in: path
+          required: true
+        call: stackmint.set-provider-credentials
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-providers-config-mcp
+    transport: http
+    description: MCP surface for Stackmint Providers Config (for AI agent use).
+    tools:
+    - name: set-provider-credentials
+      description: Configure Stackmint provider credentials (OpenAI / Anthropic / Mistral
+        / etc.) for a client.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: provider_id
+        type: string
+        required: true
+        description: Provider id, e.g. openai, anthropic, mistral, bedrock, azure.
+      - name: credentials
+        type: string
+        required: true
+        description: Raw JSON string with the provider credential payload (api key, model
+          defaults, etc.).
+      call: stackmint.set-provider-credentials

@@ -1,0 +1,97 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Branches Discovery
+  description: Read-only discovery of Stackmint Branches (reusable workflows) per client.
+    Exposes Branch inventory as a Naftiko-governed catalog so platform teams can see every
+    workflow currently authored in Stackmint and decide which need a Naftiko-shaped capability
+    backing them.
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Discovery
+  - Branches
+  - Workflows
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: branches
+      path: /clients/{{client_id}}/branches
+      operations:
+      - name: list-branches
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-branches-discovery-rest
+    description: REST surface for Stackmint Branches Discovery.
+    resources:
+    - name: list-branches
+      path: /stackmint/clients/{client_id}/branches
+      operations:
+      - name: list-branches
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+        call: stackmint.list-branches
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-branches-discovery-mcp
+    transport: http
+    description: MCP surface for Stackmint Branches Discovery (for AI agent use).
+    tools:
+    - name: list-branches
+      description: List Stackmint Branches (workflows) for a client.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: limit
+        type: integer
+        required: false
+      - name: cursor
+        type: string
+        required: false
+      call: stackmint.list-branches

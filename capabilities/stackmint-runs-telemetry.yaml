@@ -1,0 +1,89 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Runs Telemetry
+  description: Pull Stackmint Run telemetry (status, step traces, token usage, ROI metrics)
+    into Naftiko's OpenTelemetry pipeline so every Branch and Bud execution shows up alongside
+    Naftiko-native capability calls on the same dashboards. One observability surface for
+    both layers.
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Telemetry
+  - Observability
+  - Runs
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: run
+      path: /clients/{{client_id}}/runs/{{run_id}}
+      operations:
+      - name: get-run
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: run_id
+          in: path
+          required: true
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-runs-telemetry-rest
+    description: REST surface for Stackmint Runs Telemetry.
+    resources:
+    - name: get-run
+      path: /stackmint/clients/{client_id}/runs/{run_id}
+      operations:
+      - name: get-run
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: run_id
+          in: path
+          required: true
+        call: stackmint.get-run
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-runs-telemetry-mcp
+    transport: http
+    description: MCP surface for Stackmint Runs Telemetry (for AI agent use).
+    tools:
+    - name: get-run
+      description: Get Stackmint Run telemetry by id. Returns status, step traces, token usage,
+        and ROI metrics for the run.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: run_id
+        type: string
+        required: true
+      call: stackmint.get-run

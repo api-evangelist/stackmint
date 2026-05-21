@@ -1,0 +1,97 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Assignments Policy
+  description: "Set Branch approval-gate assignments (compliance routing to legal, finance,\
+    \ ops) on Stackmint Branches from declarative Naftiko governance metadata. Lets the same\
+    \ Naftiko spec that classifies an operation as `requires-confirmation` or carries a billing\
+    \ tag drive the matching Stackmint runtime gate \u2014 governance authored once, enforced\
+    \ both sides."
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Governance
+  - Assignments
+  - Policy
+  - Approval
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: assignments
+      path: /admin/clients/{{client_id}}/branches/{{branch_id}}/assign
+      operations:
+      - name: assign-branch
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: branch_id
+          in: path
+          required: true
+        body: '{{assignment}}'
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-assignments-policy-rest
+    description: REST surface for Stackmint Assignments Policy.
+    resources:
+    - name: assign-branch
+      path: /stackmint/clients/{client_id}/branches/{branch_id}/assign
+      operations:
+      - name: assign-branch
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: branch_id
+          in: path
+          required: true
+        call: stackmint.assign-branch
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-assignments-policy-mcp
+    transport: http
+    description: MCP surface for Stackmint Assignments Policy (for AI agent use).
+    tools:
+    - name: assign-branch
+      description: Set a Stackmint Branch approval-gate assignment from Naftiko governance
+        metadata.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: branch_id
+        type: string
+        required: true
+      - name: assignment
+        type: string
+        required: true
+        description: Raw JSON string with the assignment payload (approver groups, conditions,
+          etc.).
+      call: stackmint.assign-branch

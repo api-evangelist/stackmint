@@ -1,0 +1,95 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Branch Run
+  description: "Invoke a Stackmint Branch (workflow) from inside a Naftiko capability. Bridges\
+    \ Naftiko-shaped capability composition to Stackmint-governed workflow execution \u2014\
+    \ Naftiko orchestrates upstream, Stackmint executes with budget circuit breakers, approval\
+    \ gates, and ROI telemetry applied."
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Workflows
+  - Execution
+  - Branch
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: branch-run
+      path: /clients/{{client_id}}/branches/{{branch_id}}/run
+      operations:
+      - name: run-branch
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: branch_id
+          in: path
+          required: true
+        body: '{{input}}'
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-branch-run-rest
+    description: REST surface for Stackmint Branch Run.
+    resources:
+    - name: run-branch
+      path: /stackmint/clients/{client_id}/branches/{branch_id}/run
+      operations:
+      - name: run-branch
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: branch_id
+          in: path
+          required: true
+        call: stackmint.run-branch
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-branch-run-mcp
+    transport: http
+    description: MCP surface for Stackmint Branch Run (for AI agent use).
+    tools:
+    - name: run-branch
+      description: "Invoke a Stackmint Branch (workflow). The workflow runs under Stackmint\
+        \ governance \u2014 budget circuit breakers, approval-gate routing, and ROI telemetry\
+        \ apply."
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: branch_id
+        type: string
+        required: true
+      - name: input
+        type: string
+        required: true
+        description: Raw JSON string with the Branch input payload.
+      call: stackmint.run-branch

@@ -1,0 +1,93 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint MCP Tool Invoke
+  description: "Invoke a Stackmint-cataloged MCP tool through Stackmint's governance layer\
+    \ (budget caps, approval routing, audit trail apply). Useful when a Naftiko capability\
+    \ needs to call a tool that lives in Stackmint's managed catalog rather than wrapping\
+    \ the underlying API directly \u2014 the call inherits Stackmint's execution gates automatically."
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - MCP
+  - Invoke
+  - Tools
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: mcp-tool-invoke
+      path: /clients/{{client_id}}/mcp/tools/{{tool_id}}/invoke
+      operations:
+      - name: invoke-mcp-tool
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: tool_id
+          in: path
+          required: true
+        body: '{{input}}'
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-mcp-tool-invoke-rest
+    description: REST surface for Stackmint MCP Tool Invoke.
+    resources:
+    - name: invoke-mcp-tool
+      path: /stackmint/clients/{client_id}/mcp/tools/{tool_id}/invoke
+      operations:
+      - name: invoke-mcp-tool
+        method: POST
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: tool_id
+          in: path
+          required: true
+        call: stackmint.invoke-mcp-tool
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-mcp-tool-invoke-mcp
+    transport: http
+    description: MCP surface for Stackmint MCP Tool Invoke (for AI agent use).
+    tools:
+    - name: invoke-mcp-tool
+      description: Invoke a Stackmint-cataloged MCP tool under Stackmint governance.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: tool_id
+        type: string
+        required: true
+      - name: input
+        type: string
+        required: true
+        description: Raw JSON string with the MCP tool invocation payload.
+      call: stackmint.invoke-mcp-tool

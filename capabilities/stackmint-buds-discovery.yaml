@@ -1,0 +1,95 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint Buds Discovery
+  description: Read-only discovery of Stackmint Buds (atomic execution units) per client.
+    Exposes the Bud catalog so platform teams can map their Stackmint Bud inventory to existing
+    Naftiko capabilities and identify duplicates, gaps, and reuse opportunities.
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - Discovery
+  - Buds
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: buds
+      path: /clients/{{client_id}}/buds
+      operations:
+      - name: list-buds
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-buds-discovery-rest
+    description: REST surface for Stackmint Buds Discovery.
+    resources:
+    - name: list-buds
+      path: /stackmint/clients/{client_id}/buds
+      operations:
+      - name: list-buds
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+        call: stackmint.list-buds
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-buds-discovery-mcp
+    transport: http
+    description: MCP surface for Stackmint Buds Discovery (for AI agent use).
+    tools:
+    - name: list-buds
+      description: List Stackmint Buds (atomic execution units) for a client.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: limit
+        type: integer
+        required: false
+      - name: cursor
+        type: string
+        required: false
+      call: stackmint.list-buds

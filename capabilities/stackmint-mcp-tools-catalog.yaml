@@ -1,0 +1,97 @@
+naftiko: 1.0.0-alpha2
+info:
+  title: Stackmint MCP Tools Catalog
+  description: "Discover the MCP tools cataloged inside a Stackmint client (the tools an agent\
+    \ running in Stackmint can invoke under governance). Lets a Naftiko Fleet operator see\
+    \ every Stackmint-managed MCP tool surface side-by-side with Naftiko-published MCP capabilities\
+    \ \u2014 one catalog view across both platforms."
+  tags:
+  - Naftiko
+  - Stackmint
+  - Partnership
+  - MCP
+  - Catalog
+  - Tools
+  created: '2026-05-21'
+  modified: '2026-05-21'
+binds:
+- namespace: stackmint-env
+  description: Stackmint Platform API bearer token and Org id header.
+  keys:
+    STACKMINT_TOKEN: STACKMINT_TOKEN
+    STACKMINT_ORG_ID: STACKMINT_ORG_ID
+capability:
+  consumes:
+  - namespace: stackmint
+    type: http
+    baseUri: https://api.stackmint.ai/v1
+    authentication:
+      type: bearer
+      token: '{{STACKMINT_TOKEN}}'
+    inputParameters:
+    - name: X-Stackmint-Org-Id
+      in: header
+      value: '{{STACKMINT_ORG_ID}}'
+    resources:
+    - name: mcp-tools
+      path: /clients/{{client_id}}/mcp/tools
+      operations:
+      - name: list-mcp-tools
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+  exposes:
+  - type: rest
+    address: 0.0.0.0
+    port: 8080
+    namespace: stackmint-mcp-tools-catalog-rest
+    description: REST surface for Stackmint MCP Tools Catalog.
+    resources:
+    - name: list-mcp-tools
+      path: /stackmint/clients/{client_id}/mcp/tools
+      operations:
+      - name: list-mcp-tools
+        method: GET
+        inputParameters:
+        - name: client_id
+          in: path
+          required: true
+        - name: limit
+          in: query
+          required: false
+        - name: cursor
+          in: query
+          required: false
+        call: stackmint.list-mcp-tools
+  - type: mcp
+    address: 0.0.0.0
+    port: 9090
+    namespace: stackmint-mcp-tools-catalog-mcp
+    transport: http
+    description: MCP surface for Stackmint MCP Tools Catalog (for AI agent use).
+    tools:
+    - name: list-mcp-tools
+      description: List MCP tools cataloged inside a Stackmint client.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      inputParameters:
+      - name: client_id
+        type: string
+        required: true
+      - name: limit
+        type: integer
+        required: false
+      - name: cursor
+        type: string
+        required: false
+      call: stackmint.list-mcp-tools
