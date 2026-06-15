@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stackmint Platform API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "List clients",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients"
+      },
+      "docs": "Admin-only. Returns all clients in the organization."
+    },
+    {
+      "info": {
+        "name": "Retrieve a client",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Retrieve a client"
+    },
+    {
+      "info": {
+        "name": "List branches (workflows) for a client",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/branches",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List branches (workflows) for a client"
+    },
+    {
+      "info": {
+        "name": "Execute a branch (synchronous or asynchronous)",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/branches/:branchId/run",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "branchId",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Execute a branch (synchronous or asynchronous)"
+    },
+    {
+      "info": {
+        "name": "Check the status of a branch run",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/runs/:runId",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "runId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Check the status of a branch run"
+    },
+    {
+      "info": {
+        "name": "List atomic units (buds) for a client",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/buds",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List atomic units (buds) for a client"
+    },
+    {
+      "info": {
+        "name": "Execute an individual bud",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/buds/:budId/run",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "budId",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Execute an individual bud"
+    },
+    {
+      "info": {
+        "name": "List MCP-compatible LLM tools available to the client",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/mcp/tools",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List MCP-compatible LLM tools available to the client"
+    },
+    {
+      "info": {
+        "name": "Invoke an MCP-compatible LLM tool",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.stackmint.ai/v1/clients/:clientId/mcp/tools/:toolId/invoke",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "toolId",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Invoke an MCP-compatible LLM tool"
+    },
+    {
+      "info": {
+        "name": "Admin — assign a branch to a client",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.stackmint.ai/v1/admin/clients/:clientId/branches/:branchId/assign",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "branchId",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Admin — assign a branch to a client"
+    },
+    {
+      "info": {
+        "name": "Admin — configure provider tokens for a client",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.stackmint.ai/v1/admin/clients/:clientId/providers/:providerId/credentials",
+        "params": [
+          {
+            "name": "clientId",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "providerId",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Admin — configure provider tokens for a client"
+    }
+  ],
+  "bundled": true
+}
