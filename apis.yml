@@ -67,7 +67,7 @@ common:
     url: https://stackmint.ai/en/semantic-standard
   - type: Blog
     url: https://stackmint.ai/en/blog
-  - type: SignUp
+  - type: Signup
     url: https://stackmint.ai/en/signup
   - type: Models
     url: https://stackmint.ai/en/models
