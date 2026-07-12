@@ -57,6 +57,14 @@ apis:
       - type: Semantic Standard
         url: https://stackmint.ai/en/semantic-standard
 common:
+  - type: TrustCenter
+    url: security/stackmint-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/stackmint-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/stackmint-domain-security.yml
+  - type: Authentication
+    url: authentication/stackmint-authentication.yml
   - type: Website
     url: https://stackmint.ai/
   - type: Documentation

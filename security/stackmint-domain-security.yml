@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: stackmint.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  4 12:12:23 2026 GMT
+  hsts: false
+- host: api.stackmint.ai
+  https: false
+domains:
+- domain: stackmint.ai
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/stackmint-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: API Key
+  description: 'Authorization: Bearer YOUR_API_KEY'
+  sources:
+  - openapi/stackmint-openapi.yml
+- name: OrgId
+  type: apiKey
+  in: header
+  parameter: X-Stackmint-Org-Id
+  description: Stackmint organization identifier.
+  sources:
+  - openapi/stackmint-openapi.yml
