@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: Stackmint Platform Admin Clients API
+  version: 1.0.0
+  description: 'Stackmint is a governed execution platform for enterprise AI workflows.
+
+    REST API for managing clients, branches (workflows), buds (atomic units),
+
+    runs, and MCP-compatible LLM tools.
+
+    '
+  contact:
+    name: Stackmint
+    url: https://stackmint.ai
+servers:
+- url: https://api.stackmint.ai/v1
+  description: Stackmint Platform API
+security:
+- BearerAuth: []
+  OrgId: []
+tags:
+- name: Clients
+paths:
+  /clients:
+    get:
+      summary: List clients
+      description: Admin-only. Returns all clients in the organization.
+      responses:
+        '200':
+          description: List of clients
+      tags:
+      - Clients
+  /clients/{clientId}:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Retrieve a client
+      responses:
+        '200':
+          description: Client object
+      tags:
+      - Clients
+  /clients/{clientId}/branches:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List branches (workflows) for a client
+      responses:
+        '200':
+          description: List of branches
+      tags:
+      - Clients
+  /clients/{clientId}/branches/{branchId}/run:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: branchId
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Execute a branch (synchronous or asynchronous)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: object
+                async:
+                  type: boolean
+      responses:
+        '200':
+          description: Branch run result or run handle
+      tags:
+      - Clients
+  /clients/{clientId}/runs/{runId}:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: runId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Check the status of a branch run
+      responses:
+        '200':
+          description: Run status object
+      tags:
+      - Clients
+  /clients/{clientId}/buds:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List atomic units (buds) for a client
+      responses:
+        '200':
+          description: List of buds
+      tags:
+      - Clients
+  /clients/{clientId}/buds/{budId}/run:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: budId
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Execute an individual bud
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: object
+      responses:
+        '200':
+          description: Bud run result
+      tags:
+      - Clients
+  /clients/{clientId}/mcp/tools:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List MCP-compatible LLM tools available to the client
+      responses:
+        '200':
+          description: List of tools
+      tags:
+      - Clients
+  /clients/{clientId}/mcp/tools/{toolId}/invoke:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: toolId
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Invoke an MCP-compatible LLM tool
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                arguments:
+                  type: object
+      responses:
+        '200':
+          description: Tool invocation result
+      tags:
+      - Clients
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: 'Authorization: Bearer YOUR_API_KEY'
+    OrgId:
+      type: apiKey
+      in: header
+      name: X-Stackmint-Org-Id
+      description: Stackmint organization identifier.

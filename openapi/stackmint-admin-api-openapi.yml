@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: Stackmint Platform Admin API
+  version: 1.0.0
+  description: 'Stackmint is a governed execution platform for enterprise AI workflows.
+
+    REST API for managing clients, branches (workflows), buds (atomic units),
+
+    runs, and MCP-compatible LLM tools.
+
+    '
+  contact:
+    name: Stackmint
+    url: https://stackmint.ai
+servers:
+- url: https://api.stackmint.ai/v1
+  description: Stackmint Platform API
+security:
+- BearerAuth: []
+  OrgId: []
+tags:
+- name: Admin
+paths:
+  /admin/clients/{clientId}/branches/{branchId}/assign:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: branchId
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Admin — assign a branch to a client
+      responses:
+        '200':
+          description: Branch assigned
+      tags:
+      - Admin
+  /admin/clients/{clientId}/providers/{providerId}/credentials:
+    parameters:
+    - in: path
+      name: clientId
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: providerId
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Admin — configure provider tokens for a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Credentials stored
+      tags:
+      - Admin
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: 'Authorization: Bearer YOUR_API_KEY'
+    OrgId:
+      type: apiKey
+      in: header
+      name: X-Stackmint-Org-Id
+      description: Stackmint organization identifier.
