@@ -11,7 +11,19 @@ description: >-
   for managing clients, branches (workflows), buds (atomic units), and
   MCP-compatible tool surfaces for LLM integration.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stackmint.png
 tags:
   - AI Governance
   - AI Agents
@@ -26,36 +38,53 @@ created: '2026-05-15'
 modified: '2026-05-15'
 specificationVersion: '0.19'
 apis:
-  - aid: stackmint:platform-api
-    name: Stackmint Platform API
+- aid: stackmint:platform-api
+  name: Stackmint Platform API
+  description: >-
+    REST API for managing Stackmint workflows. Provides endpoints for listing and retrieving clients (orgs),
+    enumerating and running Branches (composable workflows) and Buds (atomic execution units), and exposing
+    MCP-compatible tool surfaces that LLMs and agents can discover and invoke under governance and audit
+    controls.
+  humanURL: https://stackmint.ai/en/api-reference
+  baseURL: https://api.stackmint.ai/v1
+  tags:
+  - Workflows
+  - Branches
+  - Buds
+  - MCP
+  - Governance
+  properties:
+  - type: Documentation
+    url: https://stackmint.ai/en/api-reference
+  - type: Developers
+    url: https://stackmint.ai/en/developers
+  - type: Authentication
+    url: https://stackmint.ai/en/api-reference
     description: >-
-      REST API for managing Stackmint workflows. Provides endpoints for
-      listing and retrieving clients (orgs), enumerating and running
-      Branches (composable workflows) and Buds (atomic execution units),
-      and exposing MCP-compatible tool surfaces that LLMs and agents can
-      discover and invoke under governance and audit controls.
-    humanURL: https://stackmint.ai/en/api-reference
-    baseURL: https://api.stackmint.ai/v1
-    tags:
-      - Workflows
-      - Branches
-      - Buds
-      - MCP
-      - Governance
-    properties:
-      - type: Documentation
-        url: https://stackmint.ai/en/api-reference
-      - type: Developers
-        url: https://stackmint.ai/en/developers
-      - type: Authentication
-        url: https://stackmint.ai/en/api-reference
-        description: >-
-          Bearer token scheme with org-level scoping. Requires
-          Authorization: Bearer <api-key> and X-Stackmint-Org-Id: <orgId>
-          headers; optional role/scope parameters for admin and MCP
-          endpoints.
-      - type: Semantic Standard
-        url: https://stackmint.ai/en/semantic-standard
+      Bearer token scheme with org-level scoping. Requires Authorization: Bearer <api-key> and X-Stackmint-Org-Id:
+      <orgId> headers; optional role/scope parameters for admin and MCP endpoints.
+  - type: Semantic Standard
+    url: https://stackmint.ai/en/semantic-standard
+- aid: stackmint:stackmint-admin-api
+  name: Stackmint Admin API
+  description: The Admin API from Stackmint — 2 operation(s) for admin.
+  humanURL: https://stackmint.ai/en/api-reference
+  baseURL: https://api.stackmint.ai/v1
+  tags:
+  - Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/stackmint-admin-api-openapi.yml
+- aid: stackmint:stackmint-clients-api
+  name: Stackmint Clients API
+  description: The Clients API from Stackmint — 9 operation(s) for clients.
+  humanURL: https://stackmint.ai/en/api-reference
+  baseURL: https://api.stackmint.ai/v1
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/stackmint-clients-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/stackmint-agentic-access.yml
