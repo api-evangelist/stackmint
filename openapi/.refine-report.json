@@ -1,0 +1,16 @@
+{
+  "provider": "stackmint",
+  "sources": [
+    "stackmint-admin-api-openapi.yml",
+    "stackmint-clients-api-openapi.yml"
+  ],
+  "outputs": [
+    "stackmint-admin-api-openapi.yml",
+    "stackmint-clients-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
