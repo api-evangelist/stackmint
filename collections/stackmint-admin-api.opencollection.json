@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stackmint Platform Admin API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Admin — assign a branch to a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.stackmint.ai/v1/admin/clients/:clientId/branches/:branchId/assign",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Admin — assign a branch to a client"
+        },
+        {
+          "info": {
+            "name": "Admin — configure provider tokens for a client",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.stackmint.ai/v1/admin/clients/:clientId/providers/:providerId/credentials",
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "providerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Admin — configure provider tokens for a client"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
