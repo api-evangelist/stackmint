@@ -36,7 +36,7 @@ tags:
 url: https://raw.githubusercontent.com/api-evangelist/stackmint/refs/heads/main/apis.yml
 created: '2026-05-15'
 modified: '2026-05-15'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: stackmint:platform-api
   name: Stackmint Platform API
