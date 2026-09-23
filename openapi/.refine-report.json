@@ -1,8 +1,7 @@
 {
   "provider": "stackmint",
   "sources": [
-    "stackmint-admin-api-openapi.yml",
-    "stackmint-clients-api-openapi.yml"
+    "_original/stackmint-openapi.yml"
   ],
   "outputs": [
     "stackmint-admin-api-openapi.yml",
@@ -11,6 +10,26 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "stackmint-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "stackmint-openapi.yml: tagged paths GET /clients -> Clients",
+    "stackmint-openapi.yml: tagged paths GET /clients/{clientId} -> Clients",
+    "stackmint-openapi.yml: tagged paths GET /clients/{clientId}/branches -> Clients",
+    "stackmint-openapi.yml: tagged paths POST /clients/{clientId}/branches/{branchId}/run -> Clients",
+    "stackmint-openapi.yml: tagged paths GET /clients/{clientId}/runs/{runId} -> Clients",
+    "stackmint-openapi.yml: tagged paths GET /clients/{clientId}/buds -> Clients",
+    "stackmint-openapi.yml: tagged paths POST /clients/{clientId}/buds/{budId}/run -> Clients",
+    "stackmint-openapi.yml: tagged paths GET /clients/{clientId}/mcp/tools -> Clients",
+    "stackmint-openapi.yml: tagged paths POST /clients/{clientId}/mcp/tools/{toolId}/invoke -> Clients",
+    "stackmint-openapi.yml: tagged paths POST /admin/clients/{clientId}/branches/{branchId}/assign -> Admin",
+    "stackmint-openapi.yml: tagged paths POST /admin/clients/{clientId}/providers/{providerId}/credentials -> Admin",
+    "stackmint-openapi.yml: declared missing tag: Admin",
+    "stackmint-openapi.yml: declared missing tag: Clients",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "stackmint-admin-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stackmint-clients-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

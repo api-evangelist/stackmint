@@ -1,14 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Stackmint Platform Admin Clients API
+  title: Stackmint Platform Clients API
   version: 1.0.0
   description: 'Stackmint is a governed execution platform for enterprise AI workflows.
 
     REST API for managing clients, branches (workflows), buds (atomic units),
 
-    runs, and MCP-compatible LLM tools.
-
-    '
+    runs, and MCP-compatible LLM tools.'
   contact:
     name: Stackmint
     url: https://stackmint.ai
@@ -30,6 +28,8 @@ paths:
           description: List of clients
       tags:
       - Clients
+      operationId: getClients
+      x-operation-id-source: derived
   /clients/{clientId}:
     parameters:
     - in: path
@@ -44,6 +44,8 @@ paths:
           description: Client object
       tags:
       - Clients
+      operationId: getClientsByClientId
+      x-operation-id-source: derived
   /clients/{clientId}/branches:
     parameters:
     - in: path
@@ -58,6 +60,8 @@ paths:
           description: List of branches
       tags:
       - Clients
+      operationId: getClientsByClientIdBranches
+      x-operation-id-source: derived
   /clients/{clientId}/branches/{branchId}/run:
     parameters:
     - in: path
@@ -88,6 +92,8 @@ paths:
           description: Branch run result or run handle
       tags:
       - Clients
+      operationId: postClientsByClientIdBranchesByBranchIdRun
+      x-operation-id-source: derived
   /clients/{clientId}/runs/{runId}:
     parameters:
     - in: path
@@ -107,6 +113,8 @@ paths:
           description: Run status object
       tags:
       - Clients
+      operationId: getClientsByClientIdRunsByRunId
+      x-operation-id-source: derived
   /clients/{clientId}/buds:
     parameters:
     - in: path
@@ -121,6 +129,8 @@ paths:
           description: List of buds
       tags:
       - Clients
+      operationId: getClientsByClientIdBuds
+      x-operation-id-source: derived
   /clients/{clientId}/buds/{budId}/run:
     parameters:
     - in: path
@@ -149,6 +159,8 @@ paths:
           description: Bud run result
       tags:
       - Clients
+      operationId: postClientsByClientIdBudsByBudIdRun
+      x-operation-id-source: derived
   /clients/{clientId}/mcp/tools:
     parameters:
     - in: path
@@ -163,6 +175,8 @@ paths:
           description: List of tools
       tags:
       - Clients
+      operationId: getClientsByClientIdMcpTools
+      x-operation-id-source: derived
   /clients/{clientId}/mcp/tools/{toolId}/invoke:
     parameters:
     - in: path
@@ -191,6 +205,8 @@ paths:
           description: Tool invocation result
       tags:
       - Clients
+      operationId: postClientsByClientIdMcpToolsByToolIdInvoke
+      x-operation-id-source: derived
 components:
   securitySchemes:
     BearerAuth:

@@ -1,0 +1,1 @@
+{"resource":"https://api.stackmint.ai/mcp","authorization_servers":["https://api.stackmint.ai"],"scopes_supported":["mcp:profile:read","mcp:builder:read","mcp:builder:write","mcp:builder:execute"],"bearer_methods_supported":["header"],"resource_name":"Stackmint Builder MCP"}

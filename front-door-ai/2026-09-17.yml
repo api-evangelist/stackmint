@@ -1,0 +1,30 @@
+# Front Door AI Index — stackmint — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: stackmint
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: stackmint.ai
+  final_host: stackmint.ai
+  ownership: own
+  owner: stackmint
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 15
+  host_score: 15
+  density: 24.55
+  words: 611
+  tiers:
+    agentic: 1
+    core: 12
+    model: 2
+  ambiguous: 5
+  top_terms:
+    AI: 12
+    intelligence: 4
+    ChatGPT: 1
+    Claude: 1
+    MCP: 1
+    agent: 1
