@@ -40,7 +40,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stackmint.
 tags:
   - AI Governance
   - AI Agents
-  - Workflow-Automation
+  - Workflow Automation
   - Enterprise AI
   - MCP
   - Semantic Layer
@@ -55,6 +55,7 @@ tags_raw:
   - Semantic Layer
   - Audit
   - Compliance
+  - Workflow-Automation
 url: https://raw.githubusercontent.com/api-evangelist/stackmint/refs/heads/main/apis.yml
 created: '2026-05-15'
 modified: '2026-05-15'
